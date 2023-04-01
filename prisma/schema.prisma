@@ -5,6 +5,12 @@ generator client {
     provider = "prisma-client-js"
 }
 
+// Table: companies address: unique identifier for the company name: name of the company created_at: timestamp for when the company was registered updated_at: timestamp for when the company was last updated
+
+// Table: employees id: unique identifier for the employee name: name of the employee address: Ethereum address of the employee's account company_id: foreign key referencing the company the employee belongs to created_at: timestamp for when the employee was registered updated_at: timestamp for when the employee was last updated ticket_generated: reputataion:reputation points
+
+// Table: complaints type: victim/witness id: unique identifier for the complaint description: description of the complaint status: current status of the complaint (e.g. pending, resolved, etc.) company_id: foreign key referencing the company the complaint was filed against employee_id: foreign key referencing the employee who filed the complaint created_at: timestamp for when the complaint was submitted updated_at: timestamp for when the complaint was last updated evidence: date/time/place
+
 datasource db {
     provider = "sqlite"
     url      = env("DATABASE_URL")
@@ -14,4 +20,60 @@ model Example {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+}
+
+model Company {
+    id         String      @id @default(cuid())
+    address    String      @unique
+    name       String
+    createdAt  DateTime    @default(now())
+    updatedAt  DateTime    @updatedAt
+    employees  Employee[]
+    complaints Complaint[]
+}
+
+model Employee {
+    id            String      @id @default(cuid())
+    walletAddress String      @unique
+    name          String
+    company       Company     @relation(fields: [companyId], references: [id])
+    companyId     String
+    createdAt     DateTime    @default(now())
+    updatedAt     DateTime    @updatedAt
+    complaints    Complaint[]
+}
+
+// enum ComplaintType {
+//     VICTIM
+//     WITNESS
+// }
+
+// enum ComplaintStatus {
+//     PENDING
+//     REJECTED
+//     RESOLVED
+// }
+model Complaint {
+    id            String     @id @default(cuid())
+    complaintType String
+    description   String
+    status        String
+    company       Company    @relation(fields: [companyId], references: [id])
+    companyId     String
+    employee      Employee   @relation(fields: [employeeId], references: [id])
+    employeeId    String
+    createdAt     DateTime   @default(now())
+    updatedAt     DateTime   @updatedAt
+    evidence      Evidence[]
+}
+
+model Evidence {
+    id          String    @id @default(cuid())
+    date        String
+    time        String
+    place       String
+    complaint   Complaint @relation(fields: [complaintId], references: [id])
+    complaintId String
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
 }
