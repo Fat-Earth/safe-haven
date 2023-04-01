@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 const Banner = () => {
   return (
-    <div className="flex h-screen items-center">
+    <div className="mt-5 flex h-screen items-center">
       <img src="/images/home-banner.webp" alt="banner" />
       <div className="flex h-full flex-col justify-center gap-3">
         <h1 className="font-poppin text-8xl font-bold text-secondary">
