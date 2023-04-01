@@ -3,7 +3,7 @@ import { signIn } from "next-auth/react";
 import { useAccount, useConnect, useSignMessage, useDisconnect } from "wagmi";
 import { useRouter } from "next/router";
 import { useAuthRequestChallengeEvm } from "@moralisweb3/next";
-import { useSession } from "next-auth/react";
+import { useSession , signOut} from "next-auth/react";
 
 const Navbar = () => {
   const { connectAsync } = useConnect();
@@ -70,7 +70,13 @@ const Navbar = () => {
                 Login
               </button>
             ) : (
-              <div>logout</div>
+              <div>
+                <button onClick={() => signOut({ redirect: '/' })}
+                className="rounded-lg border-4 border-secondary bg-secondary px-6 py-2 font-poppin text-lg font-medium text-white"
+              >
+                Logout
+              </button>
+              </div>
             )}
           </div>
         </div>
