@@ -12,7 +12,7 @@ generator client {
 // Table: complaints type: victim/witness id: unique identifier for the complaint description: description of the complaint status: current status of the complaint (e.g. pending, resolved, etc.) company_id: foreign key referencing the company the complaint was filed against employee_id: foreign key referencing the employee who filed the complaint created_at: timestamp for when the complaint was submitted updated_at: timestamp for when the complaint was last updated evidence: date/time/place
 
 datasource db {
-    provider = "sqlite"
+    provider = "postgresql"
     url      = env("DATABASE_URL")
 }
 
@@ -43,16 +43,17 @@ model Employee {
     complaints    Complaint[]
 }
 
-// enum ComplaintType {
-//     VICTIM
-//     WITNESS
-// }
+enum ComplaintType {
+    VICTIM
+    WITNESS
+}
 
-// enum ComplaintStatus {
-//     PENDING
-//     REJECTED
-//     RESOLVED
-// }
+enum ComplaintStatus {
+    PENDING
+    REJECTED
+    RESOLVED
+}
+
 model Complaint {
     id            String     @id @default(cuid())
     complaintType String

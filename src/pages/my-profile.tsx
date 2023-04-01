@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { Company } from "@prisma/client";
+import type { Company } from "@prisma/client";
 import { useState } from "react";
 import { api } from "~/utils/api";
 
@@ -8,10 +8,10 @@ const MyProfile = () => {
 
   const [userInfo, setUserInfo] = useState<{
     name: string;
-    company: Company;
+    companyId: string;
   }>({
     name: "",
-    company: {} as Company,
+    companyId: "",
   });
 
   if (companyList.isLoading) return <div>Loading...</div>;
@@ -41,6 +41,7 @@ const MyProfile = () => {
               onChange={(e) =>
                 setUserInfo({ ...userInfo, name: e.target.value })
               }
+              placeholder="enter your name"
             />
           </div>
           <div>
@@ -48,13 +49,14 @@ const MyProfile = () => {
               2. Select your company
             </h4>
             <select className="mt-3 w-full border-b-2 border-tert bg-primary text-6xl font-bold text-tert focus:outline-none">
+              <option>Select Company</option>
               {companyList?.data?.map((company) => (
                 <option
                   key={company.id}
                   onClick={() =>
                     setUserInfo((prev) => ({
                       ...prev,
-                      company,
+                      companyId: company.id,
                     }))
                   }
                 >
