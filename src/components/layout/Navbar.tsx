@@ -1,8 +1,8 @@
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
-import { signIn } from 'next-auth/react';
-import { useAccount, useConnect, useSignMessage, useDisconnect } from 'wagmi';
-import { useRouter } from 'next/router';
-import { useAuthRequestChallengeEvm } from '@moralisweb3/next';
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+import { signIn } from "next-auth/react";
+import { useAccount, useConnect, useSignMessage, useDisconnect } from "wagmi";
+import { useRouter } from "next/router";
+import { useAuthRequestChallengeEvm } from "@moralisweb3/next";
 
 const Navbar = () => {
   const { connectAsync } = useConnect();
@@ -13,23 +13,38 @@ const Navbar = () => {
   const { push } = useRouter();
 
   const handleAuth = async () => {
+    try {
       if (isConnected) {
-          await disconnectAsync();
+        await disconnectAsync();
       }
 
-      const { account, chain } = await connectAsync({ connector: new MetaMaskConnector() });
+      const { account, chain } = await connectAsync({
+        connector: new MetaMaskConnector(),
+      });
 
-      const { message } = await requestChallengeAsync({ address: account, chainId: chain.id });
+      const { message } = await requestChallengeAsync({
+        address: account,
+        chainId: chain.id,
+      });
 
       const signature = await signMessageAsync({ message });
 
       // redirect user after success authentication to '/user' page
-      const { url } = await signIn('moralis-auth', { message, signature, redirect: false, callbackUrl: '/user' });
+      const { url } = await signIn("moralis-auth", {
+        message,
+        signature,
+        redirect: false,
+        callbackUrl: "/user",
+      });
       /**
        * instead of using signIn(..., redirect: "/user")
        * we get the url from callback and push it to the router to avoid page refreshing
        */
       push(url);
+    } catch (e) {
+      if (e.message.includes("Connector not found"))
+        alert("Cannot find metamask");
+    }
   };
 
   return (
@@ -41,7 +56,10 @@ const Navbar = () => {
           <div className="cursor-pointer">About Us</div>
           <div className="cursor-pointer">Contact Us</div>
           <div>
-            <button onClick={handleAuth} className="rounded-lg border-4 border-secondary bg-secondary px-6 py-2 font-poppin text-lg font-medium text-white">
+            <button
+              onClick={handleAuth}
+              className="rounded-lg border-4 border-secondary bg-secondary px-6 py-2 font-poppin text-lg font-medium text-white"
+            >
               Login
             </button>
           </div>

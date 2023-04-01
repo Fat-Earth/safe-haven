@@ -5,7 +5,7 @@ const Login = () => {
       <img
         src="/images/login-banner.png"
         alt="banner"
-        className="h-screen w-1/2 object-cover"
+        className="h-screen w-1/2 object-cover "
       />
     </div>
   );
