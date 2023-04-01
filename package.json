@@ -17,6 +17,7 @@
     "@trpc/next": "^10.18.0",
     "@trpc/react-query": "^10.18.0",
     "@trpc/server": "^10.18.0",
+    "@walletconnect/web3-provider": "^1.8.0",
     "ethers": "^5.7.2",
     "ipfs-http-client": "^60.0.0",
     "moralis": "^2.18.1",
@@ -24,6 +25,7 @@
     "next-auth": "^4.20.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-moralis": "^1.4.2",
     "superjson": "1.12.2",
     "wagmi": "^0.6.3",
     "zod": "^3.21.4"
