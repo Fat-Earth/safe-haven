@@ -1,4 +1,4 @@
-import { ComplaintType } from "@prisma/client";
+import { ComplaintStatus, ComplaintType } from "@prisma/client";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
@@ -118,6 +118,35 @@ export const employeeRouter = createTRPCRouter({
             },
           },
           status: "PENDING",
+        },
+      });
+      return complaint;
+    }),
+  getAllCompanyComplaints: publicProcedure
+    .input(
+      z.object({
+        companyId: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const complaints = await ctx.prisma.complaint.findMany({
+        where: { companyId: input.companyId },
+      });
+      return complaints;
+    }),
+
+  updateComplaint: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        status: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const complaint = await ctx.prisma.complaint.update({
+        where: { id: input.id },
+        data: {
+          status: input.status as ComplaintStatus,
         },
       });
       return complaint;

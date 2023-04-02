@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import type { Employee } from "@prisma/client";
+import { AccountType, type Employee } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -37,6 +37,12 @@ const Dashboard = () => {
       router.push("/");
     }
   }, [status, router]);
+
+  useEffect(() => {
+    if (userInfo.data?.accountType === AccountType.ADMIN) {
+      router.push("/admin");
+    }
+  }, [userInfo.data?.accountType, router]);
 
   console.log(complaints.data);
 
