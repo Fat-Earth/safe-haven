@@ -151,4 +151,18 @@ export const employeeRouter = createTRPCRouter({
       });
       return complaint;
     }),
+  getAllEmployees: publicProcedure
+    .input(
+      z.object({
+        companyId: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const emp = await ctx.prisma.employee.findMany({
+        where: {
+          companyId: input.companyId,
+        },
+      });
+      return emp;
+    }),
 });

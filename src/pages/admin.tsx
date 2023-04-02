@@ -26,6 +26,15 @@ const Admin = () => {
       enabled: !!userInfo.data?.companyId,
     }
   );
+
+  const employees = api.employee.getAllEmployees.useQuery(
+    {
+      companyId: userInfo.data?.companyId,
+    },
+    {
+      enabled: !!userInfo.data?.companyId,
+    }
+  );
   const router = useRouter();
 
   useEffect(() => {
@@ -65,9 +74,30 @@ const Admin = () => {
               You have no previous complaints
             </h4>
           )}
-          <div className="mt-10 space-y-5">
+          <div className="mt-10 max-h-[700px] space-y-5 overflow-y-scroll">
             {complaints.data?.map((complaint) => (
               <ComplaintItemAdmin complaint={complaint} key={complaint.id} />
+            ))}
+          </div>
+        </div>
+        <div>
+          <h3 className="mt-16 font-poppin text-4xl font-semibold text-secondary underline">
+            All Employees
+          </h3>
+
+          {!complaints.data?.length && (
+            <h4 className="mt-3 font-poppin text-xl text-tert">
+              You have no previous complaints
+            </h4>
+          )}
+          <div className="mt-10 grid grid-cols-4 gap-4">
+            {employees.data?.map((employee) => (
+              <div
+                key={employee.id}
+                className="rounded-xl bg-secondary p-4 text-center font-poppin text-xl font-semibold text-primary"
+              >
+                {employee.name}
+              </div>
             ))}
           </div>
         </div>
