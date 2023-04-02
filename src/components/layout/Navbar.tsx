@@ -54,7 +54,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className="fixed top-0 w-full bg-primary ">
+    <div className="fixed top-0 w-full bg-primary z-10 ">
       <div className="mx-auto flex items-center justify-between px-44 py-8 font-poppin text-xl font-bold text-secondary">
         Safe Haven
         <div className="flex items-center gap-10 text-lg font-medium text-tert">
