@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useAuthRequestChallengeEvm } from "@moralisweb3/next";
 import { useSession, signOut } from "next-auth/react";
 import Home from "~/pages";
+import Link from "next/link";
 
 const Navbar = () => {
   const { connectAsync } = useConnect();
@@ -56,7 +57,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className="fixed top-0 w-full bg-primary shadow-md z-10">
+    <div className="fixed top-0 z-10 w-full bg-primary shadow-md">
       <div
         onClick={() => push("/")}
         className="mx-auto flex items-center justify-between px-44 py-3 font-poppin text-6xl font-bold text-secondary "
@@ -66,7 +67,9 @@ const Navbar = () => {
           <div onClick={() => push("/")} className="cursor-pointer">
             Home
           </div>
-          <div className="cursor-pointer">About Us</div>
+          <Link href={"/about"}>
+            <div className="cursor-pointer">About Us</div>
+          </Link>
           {/* <div className="cursor-pointer">Contact Us</div> */}
           <div>
             {session.status === "unauthenticated" ? (
