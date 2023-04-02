@@ -56,7 +56,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className="fixed top-0 w-full bg-primary shadow-md">
+    <div className="fixed top-0 w-full bg-primary shadow-md z-10">
       <div
         onClick={() => push("/")}
         className="mx-auto flex items-center justify-between px-44 py-3 font-poppin text-6xl font-bold text-secondary "
