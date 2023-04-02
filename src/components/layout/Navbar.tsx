@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { signIn } from "next-auth/react";
 import { useAccount, useConnect, useSignMessage, useDisconnect } from "wagmi";
@@ -56,12 +57,17 @@ const Navbar = () => {
 
   return (
     <div className="fixed top-0 w-full bg-primary shadow-md">
-      <div onClick={Home} className="mx-auto flex items-center justify-between px-44 py-3 font-poppin text-6xl font-bold text-secondary ">
+      <div
+        onClick={() => push("/")}
+        className="mx-auto flex items-center justify-between px-44 py-3 font-poppin text-6xl font-bold text-secondary "
+      >
         SH
         <div className="flex items-center gap-10 text-lg font-medium text-tert">
-          <div onClick={Home} className="cursor-pointer">Home</div>
+          <div onClick={() => push("/")} className="cursor-pointer">
+            Home
+          </div>
           <div className="cursor-pointer">About Us</div>
-          <div className="cursor-pointer">Contact Us</div>
+          {/* <div className="cursor-pointer">Contact Us</div> */}
           <div>
             {session.status === "unauthenticated" ? (
               <button

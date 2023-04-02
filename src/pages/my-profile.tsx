@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @next/next/no-img-element */
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 
 const MyProfile = () => {
@@ -9,6 +10,21 @@ const MyProfile = () => {
   const { data, status } = useSession();
 
   const router = useRouter();
+
+  const userInformation = api.employee.getEmployee.useQuery(
+    {
+      walletAddress: data?.user?.address,
+    },
+    {
+      enabled: !!data?.user?.address,
+    }
+  );
+
+  useEffect(() => {
+    if (userInformation.data) {
+      router.push("/dashboard");
+    }
+  }, [userInformation.data, router]);
 
   const [userInfo, setUserInfo] = useState<{
     name: string;
