@@ -4,6 +4,7 @@ import { useAccount, useConnect, useSignMessage, useDisconnect } from "wagmi";
 import { useRouter } from "next/router";
 import { useAuthRequestChallengeEvm } from "@moralisweb3/next";
 import { useSession, signOut } from "next-auth/react";
+import Home from "~/pages";
 
 const Navbar = () => {
   const { connectAsync } = useConnect();
@@ -44,7 +45,7 @@ const Navbar = () => {
       push(url);
     } catch (e) {
       if (e.message.includes("Connector not found"))
-        alert("Cannot find metamask");
+        alert("Please Download Metamask!");
     }
   };
 
@@ -55,10 +56,10 @@ const Navbar = () => {
 
   return (
     <div className="fixed top-0 w-full bg-primary shadow-md">
-      <div className="mx-auto flex items-center justify-between px-44 py-8 font-poppin text-xl font-bold text-secondary">
-        Safe Haven
+      <div onClick={Home} className="mx-auto flex items-center justify-between px-44 py-3 font-poppin text-6xl font-bold text-secondary ">
+        SH
         <div className="flex items-center gap-10 text-lg font-medium text-tert">
-          <div className="cursor-pointer">Home</div>
+          <div onClick={Home} className="cursor-pointer">Home</div>
           <div className="cursor-pointer">About Us</div>
           <div className="cursor-pointer">Contact Us</div>
           <div>
