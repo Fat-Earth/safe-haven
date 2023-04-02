@@ -55,26 +55,18 @@ enum ComplaintStatus {
 }
 
 model Complaint {
-    id            String     @id @default(cuid())
-    complaintType String
+    id            String          @id @default(cuid())
+    authorId      String
+    complaintType ComplaintType
     description   String
-    status        String
-    company       Company    @relation(fields: [companyId], references: [id])
+    status        ComplaintStatus
+    company       Company         @relation(fields: [companyId], references: [id])
     companyId     String
-    employee      Employee   @relation(fields: [employeeId], references: [id])
+    employee      Employee        @relation(fields: [employeeId], references: [id])
     employeeId    String
-    createdAt     DateTime   @default(now())
-    updatedAt     DateTime   @updatedAt
-    evidence      Evidence[]
-}
-
-model Evidence {
-    id          String    @id @default(cuid())
-    date        String
-    time        String
-    place       String
-    complaint   Complaint @relation(fields: [complaintId], references: [id])
-    complaintId String
-    createdAt   DateTime  @default(now())
-    updatedAt   DateTime  @updatedAt
+    createdAt     DateTime        @default(now())
+    updatedAt     DateTime        @updatedAt
+    e_date        String
+    e_time        String
+    e_place       String
 }

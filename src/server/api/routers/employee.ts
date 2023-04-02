@@ -1,3 +1,4 @@
+import { ComplaintType } from "@prisma/client";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
@@ -58,8 +59,66 @@ export const employeeRouter = createTRPCRouter({
     )
     .query(async ({ input, ctx }) => {
       const complaints = await ctx.prisma.complaint.findMany({
-        where: { id: input.walletAddress },
+        where: { authorId: input.walletAddress },
       });
       return complaints;
+    }),
+
+  getEmployeeList: publicProcedure
+    .input(
+      z.object({
+        companyId: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const employees = await ctx.prisma.employee.findMany({
+        where: { companyId: input.companyId },
+      });
+      return employees;
+    }),
+
+  //     description
+  // e_date
+  // e_place
+  // e_time
+  // employeeId
+  // type
+
+  registerComplaint: publicProcedure
+    .input(
+      z.object({
+        walletAddress: z.string(),
+        companyId: z.string(),
+        description: z.string(),
+        e_date: z.string(),
+        e_place: z.string(),
+        e_time: z.string(),
+        employeeId: z.string(),
+        type: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const complaint = await ctx.prisma.complaint.create({
+        data: {
+          complaintType: input.type as ComplaintType,
+          description: input.description,
+          e_date: input.e_date,
+          e_place: input.e_place,
+          e_time: input.e_time,
+          employee: {
+            connect: {
+              id: input.employeeId,
+            },
+          },
+          authorId: input.walletAddress,
+          company: {
+            connect: {
+              id: input.companyId,
+            },
+          },
+          status: "PENDING",
+        },
+      });
+      return complaint;
     }),
 });
