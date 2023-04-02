@@ -12,8 +12,9 @@ const About = () => {
             </div>
             <div className='grid grid-cols-2 gap-8 w-10/12 mx-auto my-10 place-items-center h-full ' >
                 <div className='w-2/3 place-self-end rounded-lg flex-col aspect-square h-full flex items-center justify-center shadow-lg shadow-neutral-400'>
-                    <img src="/images/bekshi.png" className='h-full aspect-square rounded-t-lg object-cover'  />
-                    <span className='bg-[#d9d9d9] italic w-full rounded-b-lg text-center text-2xl font-thin uppercase py-2'>Dhruv Bakshi</span>
+                    <div className='rounded-t-lg'>
+                        <img src="/images/bekshi.png" className='h-full aspect-square rounded-t-lg object-cover'/></div>
+                        <span className='bg-[#d9d9d9] italic w-full rounded-b-lg text-center text-2xl font-thin uppercase py-2'>Dhruv Bakshi</span>
                 </div>
                 <div className='w-2/3 place-self-start rounded-lg flex-col aspect-square h-full flex items-center justify-center shadow-lg shadow-neutral-400'>
                 <img src="/images/tzer.png" className='h-full rounded-lg aspect-square object-cover' />
