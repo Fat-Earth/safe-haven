@@ -32,6 +32,11 @@ model Company {
     complaints Complaint[]
 }
 
+enum AccountType {
+    EMPLOYEE
+    ADMIN
+}
+
 model Employee {
     id            String      @id @default(cuid())
     walletAddress String      @unique
@@ -41,6 +46,7 @@ model Employee {
     createdAt     DateTime    @default(now())
     updatedAt     DateTime    @updatedAt
     complaints    Complaint[]
+    accountType   AccountType
 }
 
 enum ComplaintType {

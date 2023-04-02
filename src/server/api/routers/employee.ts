@@ -28,6 +28,7 @@ export const employeeRouter = createTRPCRouter({
               id: input.companyId,
             },
           },
+          accountType: "EMPLOYEE",
           walletAddress: input.walletAddress,
         },
       });
