@@ -1,10 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
-import type { Company } from "@prisma/client";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { api } from "~/utils/api";
 
 const MyProfile = () => {
   const companyList = api.employee.getCompanies.useQuery();
+  const { data, status } = useSession();
+
+  const router = useRouter();
 
   const [userInfo, setUserInfo] = useState<{
     name: string;
@@ -14,7 +18,31 @@ const MyProfile = () => {
     companyId: "",
   });
 
-  if (companyList.isLoading) return <div>Loading...</div>;
+  const mutateCreateUser = api.employee.details.useMutation();
+
+  console.log(data);
+
+  const handleCreateUser = (e) => {
+    e.preventDefault();
+
+    mutateCreateUser.mutate(
+      {
+        companyId: userInfo.companyId,
+        name: userInfo.name,
+        walletAddress: data?.user?.address,
+      },
+      {
+        onSuccess: () => {
+          router.push("/dashboard");
+        },
+      }
+    );
+  };
+
+  if (status === "loading" || companyList.isLoading)
+    return <div>Loading...</div>;
+
+  if (status === "unauthenticated") return router.push("/");
 
   return (
     <div className="flex h-screen overflow-hidden bg-primary">
@@ -48,7 +76,18 @@ const MyProfile = () => {
             <h4 className="mt-2 max-w-[600px] font-poppin text-2xl font-medium text-tert">
               2. Select your company
             </h4>
-            <select className="mt-3 w-full border-b-2 border-tert bg-primary text-6xl font-bold text-tert focus:outline-none">
+            <select
+              className="mt-3 w-full border-b-2 border-tert bg-primary text-6xl font-bold text-tert focus:outline-none"
+              onChange={(e) =>
+                setUserInfo((prev) => ({
+                  ...prev,
+                  companyId:
+                    companyList.data?.find(
+                      (item) => item.name === e.target.value
+                    )?.id ?? "",
+                }))
+              }
+            >
               <option>Select Company</option>
               {companyList?.data?.map((company) => (
                 <option
@@ -64,7 +103,10 @@ const MyProfile = () => {
                 </option>
               ))}
             </select>
-            <button className="text-md mt-10 rounded-lg border-4 border-secondary bg-secondary px-6 py-3 font-poppin font-bold text-white">
+            <button
+              className="text-md mt-10 rounded-lg border-4 border-secondary bg-secondary px-6 py-3 font-poppin font-bold text-white"
+              onClick={handleCreateUser}
+            >
               Continue
             </button>
           </div>

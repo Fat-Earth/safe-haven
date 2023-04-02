@@ -3,7 +3,7 @@ import { signIn } from "next-auth/react";
 import { useAccount, useConnect, useSignMessage, useDisconnect } from "wagmi";
 import { useRouter } from "next/router";
 import { useAuthRequestChallengeEvm } from "@moralisweb3/next";
-import { useSession , signOut} from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
 const Navbar = () => {
   const { connectAsync } = useConnect();
@@ -35,7 +35,7 @@ const Navbar = () => {
         message,
         signature,
         redirect: false,
-        callbackUrl: "/user",
+        callbackUrl: "/my-profile",
       });
       /**
        * instead of using signIn(..., redirect: "/user")
@@ -54,7 +54,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className="fixed top-0 w-full bg-primary ">
+    <div className="fixed top-0 w-full bg-primary shadow-md">
       <div className="mx-auto flex items-center justify-between px-44 py-8 font-poppin text-xl font-bold text-secondary">
         Safe Haven
         <div className="flex items-center gap-10 text-lg font-medium text-tert">
@@ -71,11 +71,12 @@ const Navbar = () => {
               </button>
             ) : (
               <div>
-                <button onClick={() => signOut({ redirect: '/' })}
-                className="rounded-lg border-4 border-secondary bg-secondary px-6 py-2 font-poppin text-lg font-medium text-white"
-              >
-                Logout
-              </button>
+                <button
+                  onClick={() => signOut({ redirect: "/" })}
+                  className="rounded-lg border-4 border-secondary bg-secondary px-6 py-2 font-poppin text-lg font-medium text-white"
+                >
+                  Logout
+                </button>
               </div>
             )}
           </div>
