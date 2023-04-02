@@ -10,7 +10,7 @@ const About = () => {
                 <span className='text-7xl w-full text-center font-thin z-1'>Meet our team of <span className='italic'>Designers, Developers</span> and <span className='italic'>Creatives</span></span>
                 <img src = "/images/maple.svg" className='absolute top-10 w-32 right-40 -rotate-[30deg] -z-1' />
             </div>
-            <div className='grid grid-cols-2 gap-8 w-10/12 mx-auto my-10 place-items-center h-full ' >
+            <div className='grid grid-cols-2 gap-10 w-10/12 mx-auto my-10 place-items-center h-full ' >
                 <div className='w-2/3 place-self-end rounded-lg flex-col aspect-square h-full flex items-center justify-center shadow-lg shadow-neutral-400'>
                     <div className='rounded-t-lg'>
                         <img src="/images/bekshi.png" className='h-full aspect-square rounded-t-lg object-cover'/></div>
